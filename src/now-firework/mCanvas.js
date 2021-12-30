@@ -2,9 +2,17 @@
  * Initialize the canvas
  */
 export default function mCanvas({ canvas }) {
-  
+
   // Get the device pixel ratio, falling back to 1.
-  const dpr = 1; //window.devicePixelRatio || 1;
+  const dpr = window.devicePixelRatio || 1;
+
+  // set the dimensions temporarily to 100% to get the full size dimentions 
+  //canvas.style.width = "100%"; 
+  //canvas.style.height = "100%";
+
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+
   // Get the size of the canvas in CSS pixels.
   let canvasRect = canvas.getBoundingClientRect();
 
@@ -14,7 +22,7 @@ export default function mCanvas({ canvas }) {
   canvas.width = canvasRect.width * dpr;
   canvas.height = canvasRect.height * dpr;
 
-  canvas.style.width = canvasRect.width  + 'px';
+  canvas.style.width = canvasRect.width + 'px';
   canvas.style.height = canvasRect.height + 'px';
 
   const ctx = canvas.getContext('2d')
