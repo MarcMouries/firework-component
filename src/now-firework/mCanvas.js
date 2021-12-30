@@ -2,15 +2,20 @@
  * Initialize the canvas
  */
 export default function mCanvas({ canvas }) {
+  
   // Get the device pixel ratio, falling back to 1.
-  var dpr = window.devicePixelRatio || 1;
+  const dpr = 1; //window.devicePixelRatio || 1;
   // Get the size of the canvas in CSS pixels.
-  var canvasRect = canvas.getBoundingClientRect();
+  let canvasRect = canvas.getBoundingClientRect();
+
 
   // Give the canvas pixel dimensions of their CSS
   // size * the device pixel ratio.
   canvas.width = canvasRect.width * dpr;
   canvas.height = canvasRect.height * dpr;
+
+  canvas.style.width = canvasRect.width  + 'px';
+  canvas.style.height = canvasRect.height + 'px';
 
   const ctx = canvas.getContext('2d')
 
@@ -18,19 +23,38 @@ export default function mCanvas({ canvas }) {
   // don't have to worry about the difference.
   ctx.scale(dpr, dpr);
 
-  let center = { x: canvas.width / 2, y: canvas.height / 2 };
 
+  function draw(frameCount) {
+    ctx.fillStyle = '#333';
+    ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height);
 
-  const draw = (frameCount) => {
-    ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height)
-    ctx.fillStyle = '#000000'
+    ctx.fillStyle = '#fff';
     ctx.beginPath()
     let start_angle = 0;
     let end_angle = 2 * Math.PI;
     let radius = 20 * Math.sin(frameCount * 0.05) ** 2;
+    let center = getCenter();
     ctx.arc(center.x, center.y, radius, start_angle, end_angle);
     ctx.fill()
   }
+
+  function getHeight() {
+    return canvas.height / dpr;
+  };
+
+
+  function getWidth() {
+    return canvas.width / dpr;
+  };
+
+  function getCenter() {
+    var cx = getWidth() / 2;
+    var cy = getHeight() / 2;
+    return {
+      x: cx,
+      y: cy,
+    };
+  };
 
   return {
     draw
