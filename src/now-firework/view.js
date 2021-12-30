@@ -1,5 +1,5 @@
 import { createRef } from '@seismic/snabbdom-renderer';
-import setupCanvas from './setupCanvas';
+import mCanvas from './mCanvas';
 
 
 const height = "100vh";
@@ -9,12 +9,6 @@ export default (state, { dispatch }) => {
 
 	const canvasRef = createRef();
 	const canvas = canvasRef.current;
-
-	console.log("canvasRef")
-	console.log(canvasRef);
-	console.log("IN VIEW")
-	console.log("canvas")
-	console.log(canvas);
 
 	let mcanvas;
 	let frameCount = 0;
@@ -29,7 +23,7 @@ export default (state, { dispatch }) => {
 
 
 	function initCanvas() {
-		mcanvas = setupCanvas({ canvas: canvasRef.current });
+		mcanvas = mCanvas({ canvas: canvasRef.current });
 		render()
 	}
 

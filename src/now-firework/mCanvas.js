@@ -1,7 +1,7 @@
 /**
  * Initialize the canvas
  */
-export default function setupCanvas({ canvas }) {
+export default function mCanvas({ canvas }) {
   // Get the device pixel ratio, falling back to 1.
   var dpr = window.devicePixelRatio || 1;
   // Get the size of the canvas in CSS pixels.
@@ -25,7 +25,10 @@ export default function setupCanvas({ canvas }) {
     ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height)
     ctx.fillStyle = '#000000'
     ctx.beginPath()
-    ctx.arc(center.x, center.y, 20 * Math.sin(frameCount * 0.05) ** 2, 0, 2 * Math.PI)
+    let start_angle = 0;
+    let end_angle = 2 * Math.PI;
+    let radius = 20 * Math.sin(frameCount * 0.05) ** 2;
+    ctx.arc(center.x, center.y, radius, start_angle, end_angle);
     ctx.fill()
   }
 
