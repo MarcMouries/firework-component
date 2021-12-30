@@ -31,6 +31,8 @@ export default (state, { dispatch }) => {
 		window.cancelAnimationFrame(animationFrameId)
 	}
 
+	//height={height}
+	//width={width}
 
 	return (
 		<div className="root"
@@ -41,8 +43,7 @@ export default (state, { dispatch }) => {
 				ref={canvasRef}
 				hook-insert={initCanvas}
 				hook-destroy={cancelAnimationFrame}
-				height={height}
-				width={width}
+
 				style={{ 'border-style': 'solid', 'border-width': '2px', 'border-color': 'blue' }}>
 			</canvas>
 		</div >)
