@@ -9,19 +9,32 @@ export default (state, { dispatch }) => {
 
 	const canvasRef = createRef();
 	const canvas = canvasRef.current;
-	
+
 	console.log("canvasRef")
 	console.log(canvasRef);
 	console.log("IN VIEW")
 	console.log("canvas")
 	console.log(canvas);
 
+	let mcanvas;
+	let frameCount = 0;
+	let animationFrameId = 0;
+
+
+	function render() {
+		frameCount++
+		mcanvas.draw(frameCount)
+		animationFrameId = window.requestAnimationFrame(render)
+	}
+
+
 	function initCanvas() {
-		console.log("INIT CANVAS - start")
-		//console.log("canvas")
-		//console.log(canvas);
-		setupCanvas({ canvas: canvasRef.current });
-		console.log("INIT CANVAS - END")
+		mcanvas = setupCanvas({ canvas: canvasRef.current });
+		render()
+	}
+
+	function cancelAnimationFrame() {
+		window.cancelAnimationFrame(animationFrameId)
 	}
 
 
@@ -33,8 +46,9 @@ export default (state, { dispatch }) => {
 			<canvas id="myCanvas"
 				ref={canvasRef}
 				hook-insert={initCanvas}
-				height = { height }
-				width = { width }
+				hook-destroy={cancelAnimationFrame}
+				height={height}
+				width={width}
 				style={{ 'border-style': 'solid', 'border-width': '2px', 'border-color': 'blue' }}>
 			</canvas>
 		</div >)
