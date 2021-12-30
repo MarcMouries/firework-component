@@ -1,15 +1,10 @@
 import {createCustomElement} from '@servicenow/ui-core';
 import snabbdom from '@servicenow/ui-renderer-snabbdom';
 import styles from './styles.scss';
-
-const view = (state, {updateState}) => {
-	return (
-		<div></div>
-	);
-};
+import view from './view';
 
 createCustomElement('now-firework', {
-	renderer: {type: snabbdom},
+	renderer: { type: snabbdom, view },
 	view,
 	styles
 });
