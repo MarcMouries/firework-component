@@ -2,21 +2,12 @@ import { createRef } from '@seismic/snabbdom-renderer';
 import mCanvas from './mCanvas';
 import Particle from './Particle';
 
-
-
-
-const height = "100vh";
-const width = "100vw";
-
 export default (state, { dispatch }) => {
 
 	const canvasRef = createRef();
-	const canvas = canvasRef.current;
-
 	let mcanvas;
 	let frameCount = 0;
 	let animationFrameId = 0;
-
 
 	const gravity = 0.03
 	const friction = 0.99
@@ -30,7 +21,7 @@ export default (state, { dispatch }) => {
 		const context = mcanvas.getContext();
 		const particleCount = 500
 		const power = 12
-		let radians = (Math.PI * 2) / particleCount;
+		let angle_rad = (Math.PI * 2) / particleCount;
 
 		let i = 1;
 		
@@ -40,8 +31,8 @@ export default (state, { dispatch }) => {
 			3,
 			`hsl(${Math.random() * 360}, 50%, 50%)`,
 			{
-				x: Math.cos(radians * i) * (Math.random() * power),
-				y: Math.sin(radians * i) * (Math.random() * power)
+				x: Math.cos(angle_rad * i) * (Math.random() * power),
+				y: Math.sin(angle_rad * i) * (Math.random() * power)
 			}
 		);
 		particle.update(gravity, friction);
