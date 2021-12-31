@@ -43,7 +43,7 @@ export default function mCanvas({ canvas }) {
     let radius = 20 * Math.sin(frameCount * 0.05) ** 2;
     let center = getCenter();
     ctx.arc(center.x, center.y, radius, start_angle, end_angle);
-    ctx.fill()
+    ctx.fill();
   }
 
   function getHeight() {
@@ -55,6 +55,10 @@ export default function mCanvas({ canvas }) {
     return canvas.width / dpr;
   };
 
+  function getContext() {
+    return ctx;
+  }
+
   function getCenter() {
     var cx = getWidth() / 2;
     var cy = getHeight() / 2;
@@ -65,6 +69,8 @@ export default function mCanvas({ canvas }) {
   };
 
   return {
-    draw
+    draw,
+    getCenter,
+    getContext
   };
 }
