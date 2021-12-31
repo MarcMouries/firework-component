@@ -1,5 +1,8 @@
 import { createRef } from '@seismic/snabbdom-renderer';
 import mCanvas from './mCanvas';
+import Particle from './Particle';
+
+
 
 
 const height = "100vh";
@@ -15,9 +18,35 @@ export default (state, { dispatch }) => {
 	let animationFrameId = 0;
 
 
+	const gravity = 0.03
+	const friction = 0.99
+
 	function render() {
 		frameCount++
 		mcanvas.draw(frameCount)
+
+		let center = mcanvas.getCenter();
+		//console.log(center);
+		const context = mcanvas.getContext();
+		const particleCount = 500
+		const power = 12
+		let radians = (Math.PI * 2) / particleCount;
+
+		let i = 1;
+		
+		let particle = new Particle(
+			center.x,
+			center.y,
+			3,
+			`hsl(${Math.random() * 360}, 50%, 50%)`,
+			{
+				x: Math.cos(radians * i) * (Math.random() * power),
+				y: Math.sin(radians * i) * (Math.random() * power)
+			}
+		);
+		particle.update(gravity, friction);
+		particle.draw(context);
+
 		animationFrameId = window.requestAnimationFrame(render)
 	}
 
@@ -30,9 +59,6 @@ export default (state, { dispatch }) => {
 	function cancelAnimationFrame() {
 		window.cancelAnimationFrame(animationFrameId)
 	}
-
-	//height={height}
-	//width={width}
 
 	return (
 		<div className="root"
