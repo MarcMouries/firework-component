@@ -25,7 +25,9 @@ export default class Particle {
     update(gravity, friction) {
       this.velocity.x *= friction
       this.velocity.y *= friction
+      
       this.velocity.y += gravity
+
       this.x += this.velocity.x
       this.y += this.velocity.y
       this.opacity -= 0.003
