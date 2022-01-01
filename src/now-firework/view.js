@@ -9,12 +9,14 @@ export default (state, { dispatch }) => {
 	let frameCount = 0;
 	let animationFrameId = 0;
 
+	const mouse = { x: 0, y: 0}
+
 	const gravity = 0.03
 	const friction = 0.99
 
 	function render() {
 		frameCount++
-		mcanvas.draw(frameCount)
+	//	mcanvas.draw(frameCount)
 
 		let center = mcanvas.getCenter();
 		//console.log(center);
@@ -38,12 +40,25 @@ export default (state, { dispatch }) => {
 		particle.update(gravity, friction);
 		particle.draw(context);
 
-		animationFrameId = window.requestAnimationFrame(render)
+	//	animationFrameId = window.requestAnimationFrame(render)
 	}
 
 
 	function initCanvas() {
 		mcanvas = mCanvas({ canvas: canvasRef.current });
+		//console.log(mcanvas)
+		//console.log(mcanvas.getCanvas());
+
+		mcanvas.getCanvas().addEventListener('mousedown', (event) => {
+			mouse.x = event.clientX
+			mouse.y = event.clientY
+			let radius = 20; 
+			mcanvas.drawCircle(mouse.x, mouse.y, radius, 3, "red");
+			console.log("INIT CANVAS")
+			console.log(mouse)
+		})
+
+		
 		render()
 	}
 
