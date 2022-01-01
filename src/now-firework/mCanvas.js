@@ -16,7 +16,6 @@ export default function mCanvas({ canvas }) {
   // Get the size of the canvas in CSS pixels.
   let canvasRect = canvas.getBoundingClientRect();
 
-
   // Give the canvas pixel dimensions of their CSS
   // size * the device pixel ratio.
   canvas.width = canvasRect.width * dpr;
@@ -27,9 +26,22 @@ export default function mCanvas({ canvas }) {
 
   const ctx = canvas.getContext('2d')
 
-  // Scale all drawing operations by the dpr, so you 
-  // don't have to worry about the difference.
-  ctx.scale(dpr, dpr);
+  // Scale all drawing operations by the dpr, so we don't have to worry about the difference.
+ // ctx.scale(dpr, dpr);
+
+  const mouse = { x: 0, y: 0 }
+
+
+  canvas.addEventListener('mousemove', (event) => {
+    mouse.x = event.clientX
+    mouse.y = event.clientY
+    console.log("INSIDE mCANVAS")
+    mcanvas.drawCircle(mouse.x, mouse.y, radius, 3, "red");
+    console.log(event)
+  })
+
+  console.log('addEventListener');
+  console.log(canvas)
 
 
   function draw(frameCount) {
@@ -46,6 +58,21 @@ export default function mCanvas({ canvas }) {
     ctx.fill();
   }
 
+
+	const drawCircle = (x, y, radius, lineWidth, color) => {
+		ctx.beginPath();
+		ctx.arc(x, y, radius, 0, 2 * Math.PI, true);
+		ctx.fillStyle = color;
+		ctx.fill();
+
+		// draw the stroke
+		ctx.lineWidth = lineWidth;
+		//ctx.strokeStyle = color_Acapulco;
+		ctx.strokeStyle = color;
+		ctx.stroke();
+	};
+
+
   function getHeight() {
     return canvas.height / dpr;
   };
@@ -59,6 +86,10 @@ export default function mCanvas({ canvas }) {
     return ctx;
   }
 
+  function getCanvas() {
+    return canvas;
+  }
+
   function getCenter() {
     var cx = getWidth() / 2;
     var cy = getHeight() / 2;
@@ -70,7 +101,9 @@ export default function mCanvas({ canvas }) {
 
   return {
     draw,
+    drawCircle,
     getCenter,
+    getCanvas,
     getContext
   };
 }
