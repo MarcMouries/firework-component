@@ -46,18 +46,16 @@ export default (state, { dispatch }) => {
 
 	function initCanvas() {
 		mcanvas = mCanvas({ canvas: canvasRef.current });
-		//console.log(mcanvas)
-		//console.log(mcanvas.getCanvas());
 
 		mcanvas.getCanvas().addEventListener('mousedown', (event) => {
-			mouse.x = event.clientX
-			mouse.y = event.clientY
+			const canvasBound = mcanvas.getCanvas().getBoundingClientRect();
+			mouse.x = event.clientX - canvasBound.left;
+			mouse.y = event.clientY - canvasBound.top;
+
 			let radius = 20; 
 			mcanvas.drawCircle(mouse.x, mouse.y, radius, 3, "red");
-			console.log("INIT CANVAS")
 			console.log(mouse)
 		})
-
 		
 		render()
 	}
