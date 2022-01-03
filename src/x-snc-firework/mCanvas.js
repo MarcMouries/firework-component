@@ -66,6 +66,11 @@ export default function mCanvas({ canvas }) {
 		//ctx.fillRect(x, y, 50, 50);
 
 		//this.ctx.fillText(txt, x - width /2, y + padding / 2);
+//"left" || "right" || 
+    ctx.textAlign = "center";
+//"top" || "hanging" || || "alphabetic" || "ideographic" || "bottom"
+    ctx.textBaseline =  "middle" ;
+
 		ctx.fillStyle = "#000";
 		ctx.font = 'italic 48px sans-serif';
 		ctx.fillText(text, x, y);
