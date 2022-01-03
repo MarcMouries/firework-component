@@ -3,6 +3,10 @@ import mCanvas from './mCanvas';
 import Particle from './Particle';
 import Firework from './Firework';
 
+
+const color_Light_Green = "#80B6A1";
+const color_Dark_Green = "#293E40";
+
 export default (state, { dispatch }) => {
 
 	const canvasRef = createRef();
@@ -39,11 +43,30 @@ export default (state, { dispatch }) => {
 	var before = performance.now();
 
 
+	function draw_Logo() {
+		var radius = 60;
+		var middle_X = 3.3* radius; 
+		var middle_Y = 3.2* radius; 
+
+		// add new circle at the center
+
+
+        mcanvas.drawCircle( middle_X,  1* radius,  radius, 2, color_Light_Green); // NORTH
+		mcanvas.drawCircle( 5.6* radius, middle_Y, radius, 2, color_Light_Green); // EAST
+		mcanvas.drawCircle(  1* radius, middle_Y, radius, 2, color_Light_Green);  // WEST
+        mcanvas.drawCircle( middle_X, 5.3*radius, radius, 2, color_Light_Green);  // SOUTH
+		mcanvas.drawCircle( 3.3*radius, middle_Y, radius, 2, color_Dark_Green);   // CENTER
+
+		mcanvas.drawText(1.9* radius, 7.0* radius, "Creator");
+		mcanvas.drawText(1.5* radius, 7.9* radius, "Workflows");
+	}
 
 	function initCanvas() {
 		mcanvas = mCanvas({ canvas: canvasRef.current });
 		context = mcanvas.getContext();
 		canvas = mcanvas.getCanvas();
+
+		draw_Logo();
 
 		var myAnim= new Firework(1000, mcanvas);
 		myAnim.start();
