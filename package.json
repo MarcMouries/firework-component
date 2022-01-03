@@ -6,7 +6,7 @@
 	"keywords": [
 		"ServiceNow",
 		"Now Experience UI Component",
-		"@marc/now-firework"
+		"Firework"
 	],
 	"readme": "./README.md",
 	"engines": {
@@ -15,13 +15,14 @@
 	},
 	"module": "src/index.js",
 	"dependencies": {
-		"@servicenow/ui-core": "quebec",
-		"@servicenow/ui-renderer-snabbdom": "quebec",
 		"@servicenow/cli-archetype": "20.0.0",
 		"@servicenow/cli-component-archetype": "20.0.0",
-		"@servicenow/sass-theme": "quebec",
+		"@servicenow/library-translate": "quebec",
 		"@servicenow/sass-kit": "quebec",
-		"@servicenow/library-translate": "quebec"
+		"@servicenow/sass-theme": "quebec",
+		"@servicenow/ui-core": "quebec",
+		"@servicenow/ui-renderer-snabbdom": "quebec",
+		"react-error-overlay": "^6.0.9"
 	},
 	"devDependencies": {
 		"@servicenow/cli-archetype-dev": "20.0.0",
