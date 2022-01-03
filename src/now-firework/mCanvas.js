@@ -27,21 +27,9 @@ export default function mCanvas({ canvas }) {
   const ctx = canvas.getContext('2d')
 
   // Scale all drawing operations by the dpr, so we don't have to worry about the difference.
- // ctx.scale(dpr, dpr);
+  ctx.scale(dpr, dpr);
 
   const mouse = { x: 0, y: 0 }
-
-
-  canvas.addEventListener('mousemove', (event) => {
-    mouse.x = event.clientX
-    mouse.y = event.clientY
-    console.log("INSIDE mCANVAS")
-    mcanvas.drawCircle(mouse.x, mouse.y, radius, 3, "red");
-    console.log(event)
-  })
-
-  console.log('addEventListener');
-  console.log(canvas)
 
 
   function draw(frameCount) {
@@ -59,18 +47,18 @@ export default function mCanvas({ canvas }) {
   }
 
 
-	const drawCircle = (x, y, radius, lineWidth, color) => {
-		ctx.beginPath();
-		ctx.arc(x, y, radius, 0, 2 * Math.PI, true);
-		ctx.fillStyle = color;
-		ctx.fill();
+  const drawCircle = (x, y, radius, lineWidth, color) => {
+    ctx.beginPath();
+    ctx.arc(x, y, radius, 0, 2 * Math.PI, true);
+    ctx.fillStyle = color;
+    ctx.fill();
 
-		// draw the stroke
-		ctx.lineWidth = lineWidth;
-		//ctx.strokeStyle = color_Acapulco;
-		ctx.strokeStyle = color;
-		ctx.stroke();
-	};
+    // draw the stroke
+    ctx.lineWidth = lineWidth;
+    //ctx.strokeStyle = color_Acapulco;
+    ctx.strokeStyle = color;
+    ctx.stroke();
+  };
 
 
   function getHeight() {
