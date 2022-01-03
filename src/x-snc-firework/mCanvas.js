@@ -58,7 +58,19 @@ export default function mCanvas({ canvas }) {
     //ctx.strokeStyle = color_Acapulco;
     ctx.strokeStyle = color;
     ctx.stroke();
-  };
+  }
+
+  const drawText = (x, y, text, background_color) => {
+
+		//ctx.fillStyle = "#000";
+		//ctx.fillRect(x, y, 50, 50);
+
+		//this.ctx.fillText(txt, x - width /2, y + padding / 2);
+		ctx.fillStyle = "#000";
+		ctx.font = 'italic 48px sans-serif';
+		ctx.fillText(text, x, y);
+
+	}
 
 
   function getHeight() {
@@ -90,6 +102,7 @@ export default function mCanvas({ canvas }) {
   return {
     draw,
     drawCircle,
+    drawText,
     getCenter,
     getCanvas,
     getContext
