@@ -12,3 +12,6 @@ Displays a firework
 ## Notes
 
 Tested with Node version 12.16 as it's the version supported by the ServiceNow CLI
+
+### sub notes
+Encountered an error : "Uncaught ReferenceError: process is not defined." Fixed it by installing "react-error-overlay": "^6.0.9"
