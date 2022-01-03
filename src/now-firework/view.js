@@ -9,56 +9,94 @@ export default (state, { dispatch }) => {
 	let frameCount = 0;
 	let animationFrameId = 0;
 
-	const mouse = { x: 0, y: 0}
+	let context;
+	let canvas;
 
+	const mouse = { x: 0, y: 0 }
+
+	// @todo make them Vector
 	const gravity = 0.03
 	const friction = 0.99
 
-	function render() {
-		frameCount++
-	//	mcanvas.draw(frameCount)
+	let particles = [];
+	const power = 12;
+	const particleCount = 12
+	// spread particle around the circle
+	let angle_increment = (Math.PI * 2) / particleCount;
 
-		let center = mcanvas.getCenter();
-		//console.log(center);
-		const context = mcanvas.getContext();
-		const particleCount = 500
-		const power = 12
-		let angle_rad = (Math.PI * 2) / particleCount;
-
-		let i = 1;
-		
-		let particle = new Particle(
-			center.x,
-			center.y,
-			3,
-			`hsl(${Math.random() * 360}, 50%, 50%)`,
-			{
-				x: Math.cos(angle_rad * i) * (Math.random() * power),
-				y: Math.sin(angle_rad * i) * (Math.random() * power)
-			}
-		);
-		particle.update(gravity, friction);
-		particle.draw(context);
-
-	//	animationFrameId = window.requestAnimationFrame(render)
-	}
+	/* To control the animation */
+	let start = 0;
+	let previousTimeStamp;
+	let fps;
 
 
 	function initCanvas() {
 		mcanvas = mCanvas({ canvas: canvasRef.current });
+		context = mcanvas.getContext();
+		canvas = mcanvas.getCanvas();
 
-		mcanvas.getCanvas().addEventListener('mousedown', (event) => {
+		canvas.addEventListener('click', (event) => {
 			const canvasBound = mcanvas.getCanvas().getBoundingClientRect();
 			mouse.x = event.clientX - canvasBound.left;
 			mouse.y = event.clientY - canvasBound.top;
+			createParticles(mouse)
 
-			let radius = 20; 
-			mcanvas.drawCircle(mouse.x, mouse.y, radius, 3, "red");
-			console.log(mouse)
 		})
-		
-		render()
+		renderingLoop()
 	}
+
+	function createParticles(mouse) {
+		let radius = 5;
+		let color = `hsl(${Math.random() * 360}, 50%, 50%)`;
+
+		for (let i = 0; i < particleCount; i++) {
+			let angle = (angle_increment * i) * (Math.random() * power);
+			let velocity = { x: Math.cos(angle_increment*i), y: Math.sin(angle_increment*i)	};//
+			let particle = new Particle(mouse.x, mouse.y, radius, color, velocity);
+			particles.push(particle)
+		}
+	}
+
+	function renderingLoop(timestamp) {
+		animationFrameId = window.requestAnimationFrame(renderingLoop)
+
+		//console.log("timestamp: " + timestamp)
+
+		// Calculate how much time has passed
+		const elapsed = timestamp - start;
+		start = timestamp;
+		//frameCount++;
+
+
+		// Clear the entire canvas
+		context.fillStyle = 'rgba(0,0,0, 0.05)'; // alpha value provides trailing effect
+		context.fillRect(0, 0, canvas.width, canvas.height);
+
+		// Perform the drawing operation
+		draw();
+
+
+		// Draw number to the screen
+		context.fillStyle = 'white';
+		context.fillRect(0, 0, 200, 100);
+		context.font = '25px Arial';
+		context.fillStyle = 'black';
+		context.fillText("FPS: " + fps, 10, 30);
+
+		if (elapsed < 2000) { // Stop the animation after 2 seconds
+		}
+	}
+
+	function draw() {
+		//	mcanvas.draw(frameCount)
+		particles.forEach((particle) => {
+			particle.draw(context)
+			particle.update(gravity, friction);
+		})
+
+	}
+
+
 
 	function cancelAnimationFrame() {
 		window.cancelAnimationFrame(animationFrameId)
