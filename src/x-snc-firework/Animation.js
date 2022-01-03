@@ -1,7 +1,10 @@
 export default class Animation {
-    constructor(duration) {
+    constructor(name, duration, mcanvas) {
+		this.name = name;
+        this.mcanvas = mcanvas;
 		this.duration = duration;
         this.startTime = performance.now();
+        console.log(mcanvas);
     }
 
     start() {
@@ -23,6 +26,6 @@ export default class Animation {
          }
 
     render () {
-        console.log("needs to be implemented")
+        console.log(this.name + " needs to be implemented")
     }
 }

@@ -1,1 +1,1 @@
-import './now-firework';
+import './x-snc-firework';

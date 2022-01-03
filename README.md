@@ -8,6 +8,10 @@ Displays a firework
 1. clone repository
 2. npm install
 3. snc ui-component develop --open
+4. snc configure profile set
+5. snc ui-component login {instance_url} basic {user_name} {password}
+6. snc ui-component deploy --force
+
 
 ## Notes
 
