@@ -1,4 +1,4 @@
-@marc/now-firework
+@marc/x-snc-firework
 ===============================================
 Displays a firework
 
