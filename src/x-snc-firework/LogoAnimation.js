@@ -1,6 +1,6 @@
-import Animation from './Animation';
+import CanvasAnimation from './CanvasAnimation';
 
-export default class LogoAnimation extends Animation {
+export default class LogoAnimation extends CanvasAnimation {
     constructor(duration, mcanvas) {
         super("LogoAnimation", duration, mcanvas)
         
