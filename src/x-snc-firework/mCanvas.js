@@ -68,10 +68,7 @@ export default function mCanvas({ canvas }) {
    * @param {*} align 
    * @param {*} background_color 
    */
-  const drawText = (x, y, text, align, background_color) => {
-
-		//ctx.fillStyle = "#000";
-		//ctx.fillRect(x, y, 50, 50);
+  const drawText = (x, y, text, align, color) => {
 
     let textAlign = align || "center";
 		//this.ctx.fillText(txt, x - width /2, y + padding / 2);
@@ -80,7 +77,7 @@ export default function mCanvas({ canvas }) {
 //"top" || "hanging" || || "alphabetic" || "ideographic" || "bottom"
     ctx.textBaseline =  "middle" ;
 
-		ctx.fillStyle = "#000";
+		ctx.fillStyle = color || "#000";
 		ctx.font = '48px sans-serif';
 		ctx.fillText(text, x, y);
 
