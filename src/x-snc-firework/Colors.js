@@ -9,4 +9,7 @@ const COLOR = {
   purple: "rgb(153, 102, 255)",
   grey: "rgb(201, 203, 207)"
 };
-export  { COLOR }
+
+const COLOR_VALUES = Object.values(COLOR);
+
+export  { COLOR, COLOR_VALUES }
