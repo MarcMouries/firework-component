@@ -72,7 +72,7 @@ export default function mCanvas({ canvas }) {
     ctx.textBaseline =  "middle" ;
 
 		ctx.fillStyle = "#000";
-		ctx.font = 'italic 48px sans-serif';
+		ctx.font = '48px sans-serif';
 		ctx.fillText(text, x, y);
 
 	}
@@ -110,6 +110,8 @@ export default function mCanvas({ canvas }) {
     drawText,
     getCenter,
     getCanvas,
-    getContext
+    getContext,
+    getWidth,
+    getHeight
   };
 }
