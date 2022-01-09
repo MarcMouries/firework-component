@@ -60,14 +60,23 @@ export default function mCanvas({ canvas }) {
     ctx.stroke();
   }
 
-  const drawText = (x, y, text, background_color) => {
+  /**
+   * Draws Text . Center by default
+   * @param {*} x 
+   * @param {*} y 
+   * @param {*} text 
+   * @param {*} align 
+   * @param {*} background_color 
+   */
+  const drawText = (x, y, text, align, background_color) => {
 
 		//ctx.fillStyle = "#000";
 		//ctx.fillRect(x, y, 50, 50);
 
+    let textAlign = align || "center";
 		//this.ctx.fillText(txt, x - width /2, y + padding / 2);
 //"left" || "right" || 
-    ctx.textAlign = "center";
+    ctx.textAlign = textAlign;
 //"top" || "hanging" || || "alphabetic" || "ideographic" || "bottom"
     ctx.textBaseline =  "middle" ;
 
