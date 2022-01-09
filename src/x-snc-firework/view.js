@@ -1,12 +1,13 @@
 import { createRef } from '@seismic/snabbdom-renderer';
+
+import AnimationSequence from './AnimationSequence';
 import mCanvas from './mCanvas';
-import Particle from './Particle';
+import { COLOR, COLOR_VALUES } from './Colors';
+
 import Firework from './Firework';
 import LogoAnimation from './LogoAnimation';
-import {COLOR} from './Colors';
-import AnimationSequence from './AnimationSequence';
-
-
+import FadeAnimation from './FadeAnimation';
+import TextAnimation from './TextAnimation';
 
 
 export default (state, { dispatch }) => {
@@ -21,18 +22,6 @@ export default (state, { dispatch }) => {
 
 	const mouse = { x: 0, y: 0 }
 
-	// @todo make them Vector
-	const gravity = 0.03
-	const friction = 0.99
-
-	let particles = [];
-	const SPEED = 12;
-	const PARTICLE_COUNT = 400;
-	const PARTICLE_RADIUS = 3;
-
-	// spread particle around the circle
-	let ANGLE_PARTICLE = (Math.PI * 2) / PARTICLE_COUNT;
-
 	/* To control the animation */
 	
 	let startTime = Date.now();
@@ -40,10 +29,7 @@ export default (state, { dispatch }) => {
 	let elapsedSinceStart;
 	let previousTimeStamp = +new Date;
 	let fps;
-
-	let animation_list = [];
-
-
+    let color_index = 0;
 
 	function pause_setTimeout(duration_MS) {
 		return new Promise((resolve) => {
@@ -51,133 +37,60 @@ export default (state, { dispatch }) => {
 		});
 	  }
 
-
-
-	  async function  fadeToWhite() {
-		//context
-		
+	  function getColor() {
+		let color = COLOR_VALUES[color_index % COLOR_VALUES.length] ;
+		color_index ++;
+		return color;
 	  }
-
-	async function draw_Logo() {
-
-		let center = mcanvas.getCenter();
-		var radius = 80;
-		var margin = 20;
-		var diam = (2 * radius) ;
-		diam += margin;
-
-		console.log("colors");
-		//console.log(COLOR.red);
-		console.log(COLOR.red);
-		console.log(COLOR["Light Green"]);
-	//	mcanvas.drawCircle( center.x, center.y, radius, 2, COLOR.red);   // CENTER
-	//	mcanvas.drawCircle( center.x, center.y, radius, 2, COLOR["Dark Green"]);   // CENTER
-
-		await pause_setTimeout(1000);
-
-		//   "Light Green": "#80B6A1",
-
-
-        mcanvas.drawCircle( center.x, center.y - diam,  radius, 2, "#80B6A1"); // NORTH
-//        mcanvas.drawCircle( center.x, center.y - diam,  radius, 2, COLOR["Light Green"]); // NORTH
-
-		await pause_setTimeout(1000);
-
-		mcanvas.drawCircle( center.x, center.y + diam, radius, 2, COLOR["Light Green"]);  // SOUTH
-		mcanvas.drawCircle( center.x - diam, center.y, radius, 2, COLOR["Light Green"]); // EAST
-		mcanvas.drawCircle( center.x + diam, center.y, radius, 2, COLOR["Light Green"]);  // WEST
-
-		
-		mcanvas.drawText(center.x, center.y - diam, "Happy");
-		mcanvas.drawText(center.x - diam, center.y, "New");
-		mcanvas.drawText(center.x + diam, center.y, "Year");
-		mcanvas.drawText(center.x, center.y + diam, "2022");
-
-
-
-		mcanvas.drawText(center.x, center.y + ( 1.7*diam), "Creator");
-		mcanvas.drawText(center.x, center.y + ( 1.7*diam) + 50, "Workflows");
-	}
-
-
 	function initCanvas() {
 		mcanvas = mCanvas({ canvas: canvasRef.current });
 		context = mcanvas.getContext();
 		canvas = mcanvas.getCanvas();
 
-		let as = new AnimationSequence(canvas, animation_list);
-
-
-		var myLogoAnim= new LogoAnimation(1000, mcanvas);
-		myLogoAnim.start();
-
-
-		var myAnim= new Firework(1000, mcanvas);
-		myAnim.start();
-
-		
-
-
 		canvas.addEventListener('click', (event) => {
 			const canvasBound = mcanvas.getCanvas().getBoundingClientRect();
 			mouse.x = event.clientX - canvasBound.left;
 			mouse.y = event.clientY - canvasBound.top;
-			createParticles(mouse)
+			firework.createParticles(mouse)
 
 		})
+		let sequence = new AnimationSequence(mcanvas);
 
-		renderingLoop()
-		//await pause_setTimeout(2000);
+		let firework = new Firework(mcanvas, 0, 9000);
+		sequence.addAnimation(firework);
 
-		draw_Logo();
+		let position = mcanvas.getCenter();
+		let wordList = [ "Happy", "New", "Year", "2022"];
+		let logoAnim= new LogoAnimation(mcanvas, 6000, 9000, 80, position, wordList);
+		sequence.addAnimation(logoAnim);
 
+		let fadeAnim= new FadeAnimation(mcanvas, 8000, 10000);
+		sequence.addAnimation(fadeAnim);
+
+		position = mcanvas.getCenter();
+		let clearFirst = true;
+		let outro_textAnim1= new TextAnimation(mcanvas, "In 2022, What will you ", 9000, 14000, position, clearFirst);
+		let words_pos = mcanvas.getCenter();
+		words_pos.x = words_pos.x + 220;
+		clearFirst = false;
+		let outro_textAnim2= new TextAnimation(mcanvas, " Automate ?", 9000, 10000, words_pos, clearFirst, "start", getColor());
+		let outro_textAnim3= new TextAnimation(mcanvas, " Build ?", 10000, 11000, words_pos, clearFirst,  "start", getColor());
+		let outro_textAnim4= new TextAnimation(mcanvas, " Create ?", 11000, 12000, words_pos, clearFirst,  "start", getColor());
+		let outro_textAnim5= new TextAnimation(mcanvas, " Imagine ?", 12000, 13000, words_pos, clearFirst,  "start", getColor());
+		let outro_textAnim6= new TextAnimation(mcanvas, " Transform ?", 13000, 14000, words_pos, clearFirst,  "start", getColor());
+		sequence.addAnimation(outro_textAnim1);
+		sequence.addAnimation(outro_textAnim2);
+		sequence.addAnimation(outro_textAnim3);
+		sequence.addAnimation(outro_textAnim4);
+		sequence.addAnimation(outro_textAnim5);
+		sequence.addAnimation(outro_textAnim6);
+		position = mcanvas.getCenter();
+		let logoAnim2= new LogoAnimation(mcanvas, 14000, 15000, 40, position, null, true);
+		sequence.addAnimation(logoAnim2);
+
+		sequence.start();
 	}
 
-	function createParticles(mouse) {
-
-		for (let i = 0; i < PARTICLE_COUNT; i++) {
-			let color = `hsl(${Math.random() * 360}, 50%, 50%)`;
-			// spread particles evenly around the circle
-			let angle = (ANGLE_PARTICLE * i) 
-			//let velocity = { x: Math.cos(angle ), y: Math.sin(angle ) };
-			let velocity = {
-				x: Math.cos( ANGLE_PARTICLE * i)  * (Math.random() * SPEED),  
-				y: Math.sin( ANGLE_PARTICLE * i)  * (Math.random() * SPEED)
-			  }
-
-			let particle = new Particle(mouse.x, mouse.y, PARTICLE_RADIUS, color, velocity);
-			particles.push(particle)
-		}
-	}
-
-	function renderingLoop(timestamp) {
-		animationFrameId = window.requestAnimationFrame(renderingLoop)
-		
-		//console.log("timestamp: " + timestamp)
-
-		// Calculate how much time has passed
-		// 60 fps translates to 16.7ms per frame
-        elapsedSinceLastFrame = (timestamp - previousTimeStamp);
-		fps = 1000/elapsedSinceLastFrame;
-        previousTimeStamp = timestamp;
-	
-
-		//frameCount++;
-
-		// Clear the entire canvas
-		context.fillStyle = 'rgba(0,0,0, 0.05)'; // alpha value provides trailing effect
-	//	context.fillRect(0, 0, canvas.width, canvas.height);
-
-		// Perform the drawing operation
-		draw();
-
-		elapsedSinceStart = (timestamp - startTime);
-
-		drawFPS();
-
-		if (elapsedSinceStart < 2000) { // Stop the animation after 2 seconds
-		}
-	}
 
 	function drawFPS() {
 		// Draw number to the screen
@@ -188,20 +101,6 @@ export default (state, { dispatch }) => {
 		context.fillText("Frame/s: " + fps, 10, 30);
 		//context.fillText("Elapsed: " + elapsedSinceLastFrame, 10, 50);
 		context.fillText("Elapsed: " + elapsedSinceStart, 10, 70);
-	}
-
-	function draw() {
-		//	mcanvas.draw(frameCount)
-		particles.forEach((particle, index) => {
-			// as opacity is continuously decreased when it's below zero it's reset 
-			if (particle.opacity > 0) {
-				particle.draw(context)
-				particle.update(gravity, friction);
-			}
-			else {
-				particles.splice(index, 1)
-			}
-		})
 	}
 
 	function cancelAnimationFrame() {
