@@ -68,14 +68,16 @@
 	}
 
 	/**
-	 *  Return a new vector
+	 * Return a copy of this Vector
 	 * @returns
 	 */
 	copy() {
 		return new Vector(this.x, this.y);
 	}
 
-	/* divide vector length (ie magnitude) by a constant*/
+	/**
+	 * Divide vector length (ie magnitude) by a constant  
+	 */ 
 	div(n) {
 		if (n === 0) {
 			//console.warn("Vector.div:", "divide by 0");
@@ -86,12 +88,18 @@
 		return this;
 	}
 
+	/**
+	 * Linear Interpolation
+	 */ 
 	lerp(v1, amount) {
 		this.x += (v1.x - this.x) * amount || 0;
 		this.y += (v1.y - this.y) * amount || 0;
 		return this;
 	}
-
+	/**
+	 * Returns the direction of the Vector
+	 * @returns 
+	 */
 	heading() {
 		const h = Math.atan2(this.y, this.x);
 		return h;
@@ -132,7 +140,7 @@
 
 
 	/**
-	 * 
+	 * Substracts either a Vector or a scalar
 	 * @param {*} n 
 	 * @returns 
 	 */
