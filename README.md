@@ -20,8 +20,10 @@ Displays a firework
     snc extension add --name ui-component
     ```
 
-5.  snc ui-component login {instance_url} basic {user_name} {password}
-
+5.  You may need to run this command if you get disconnected from your instance
+    ```
+    snc ui-component login {instance_url} basic {user_name} {password}
+    ```
 
 ## Installation 
 
